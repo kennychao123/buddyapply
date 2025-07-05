@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Job Opportunities</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .slideshow-container {
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            text-align: left;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .slide-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .suitability-score {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            position: relative;
+        }
+
+        .suitability-score::after {
+            content: "คะแนน";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .company-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .job-title {
+            font-size: 20px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .job-description {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.6;
+            color: #555;
+            max-height: 120px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .job-description::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .job-description::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .job-description::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        .justification-th {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.8;
+            color: #2d5a2d;
+            font-size: 16px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #c8e6c9;
+            font-family: 'Sarabun', 'Segoe UI', sans-serif;
+        }
+
+        .justification-th::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .justification-th::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .justification-th::-webkit-scrollbar-thumb {
+            background: #4CAF50;
+            border-radius: 3px;
+        }
+
+        .linkedin-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #0077b5, #005885);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 119, 181, 0.3);
+        }
+
+        .linkedin-btn:hover {
+            background: linear-gradient(45deg, #005885, #003d5c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 119, 181, 0.4);
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            color: #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .nav-button:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            color: #764ba2;
+        }
+
+        .nav-button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .dots-container {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bdc3c7;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transform: scale(1.3);
+        }
+
+        .dot:hover {
+            background-color: #667eea;
+            transform: scale(1.2);
+        }
+
+        .header-title {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+                min-height: 500px;
+            }
+            
+            .company-name {
+                font-size: 24px;
+            }
+            
+            .job-title {
+                font-size: 16px;
+            }
+            
+            .nav-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .prev {
+                left: 10px;
+            }
+
+            .next {
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="header-title">🎯 Top 10 Job Opportunities</div>
+        
+        <button class="nav-button prev" onclick="changeSlide(-1)">❮</button>
+        <button class="nav-button next" onclick="changeSlide(1)">❯</button>
+
+        <div id="slides-container"></div>
+        
+        <div class="dots-container" id="dots-container"></div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        
+        // Embedded job data
+        const jobData = [
+            {
+                "companyName": "Shopee",
+                "jobTitle": "Merchant Operations (ShopeePay)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/merchant-operations-shopeepay-at-shopee-4190368136",
+                "jobDescription": "Job Description: Act as the main point of contact for merchant related matters, promptly and efficiently handle incoming inquiries and issues from merchants in a professional manner. Monitor and track merchant onboarding progress. Help resolve merchant concerns and disputes in a timely manner. Communicate with internal teams to escalate and resolve merchant issues. Conduct merchant relationship management activities. Prepare and present regular reports on merchant operations metrics. Requirements: Bachelor's degree in any field. Fresh graduates are welcome to apply. Strong communication and interpersonal skills. Excellent problem-solving and analytical abilities. Ability to work in a fast-paced environment. Proficiency in Microsoft Office Suite. Good command of English.",
+                "justificationTH": "ผู้สมัครเป็นผู้จบการศึกษาใหม่ที่มีพื้นฐานด้านการจัดการธุรกิจ ซึ่งสอดคล้องกับข้อกำหนดทางการศึกษา ประสบการณ์ของพวกเขาในด้าน FMCG, การจัดการบัญชีหลัก และการตลาดมีความเกี่ยวข้องในการจัดการเรื่องที่เกี่ยวข้องกับผู้ค้าและการประสานงานกับผู้มีส่วนได้ส่วนเสียต่างๆ ความสามารถทางภาษาอังกฤษที่ดีตอบสนองต่อความต้องการทักษะการสื่อสาร และทักษะการวิเคราะห์และเชิงรุกของพวกเขาก็ตอบสนองต่อความต้องการในการแก้ปัญหาและการรายงาน แม้ว่าจะขาดประสบการณ์เฉพาะใน SQL หรือการเขียนโค้ด แต่ความกระตือรือร้นที่จะเรียนรู้และทัศนคติที่สามารถทำได้ทำให้พวกเขาเหมาะสมอย่างยิ่งสำหรับตำแหน่งระดับเริ่มต้นในบริการทางการเงินนี้",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "Operation Project Coordinator (Contract) (SPX)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/operation-project-coordinator-contract-spx-at-shopee-4239294018",
+                "jobDescription": "Job Description: Being a team key person to take responsibility for internal product issues and reach out to different stakeholders for problem-solving. Coordinate with vendor management for operational excellence. Track and monitor project timeline and deliverables. Assist in process improvement initiatives. Provide administrative support to the operations team. Requirements: Bachelor's degree in any field. Fresh graduates are welcome. Strong communication and coordination skills. Ability to work with cross-functional teams. Detail-oriented with good organizational skills. Proficiency in Microsoft Office applications.",
+                "justificationTH": "ผู้สมัครมีคุณสมบัติทางการศึกษาตรงตามที่กำหนดโดยมีปริญญาด้านการจัดการธุรกิจ ในฐานะที่เป็นผู้สำเร็จการศึกษาใหม่ พวกเขาจึงตรงตามเกณฑ์ \"ยินดีต้อนรับผู้สำเร็จการศึกษาใหม่\" ประสบการณ์ใน FMCG การจัดการบัญชีหลัก และการตลาดของพวกเขามอบพื้นฐานที่ดีในการเข้าใจปัญหาของผลิตภัณฑ์และการทำงานร่วมกับทีมต่างๆ ความคล่องแคล่วในภาษาอังกฤษของพวกเขาช่วยสนับสนุนการสื่อสารที่มีประสิทธิภาพกับผู้มีส่วนได้ส่วนเสีย ขาดประสบการณ์โดยตรงในการจัดการผู้รับเหมา แต่แสดงให้เห็นถึงศักยภาพที่แข็งแกร่งในทักษะการวิเคราะห์และการแก้ปัญหาที่จำเป็นสำหรับตำแหน่งนี้",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "Analyst Content (Contract - ShopeeFood)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/analyst-content-contract-shopeefood-at-shopee-4250524184",
+                "jobDescription": "Configure and manage the platform backend including menus, merchant information, promotions, and campaigns. Coordinate with sales, marketing, and product teams for content optimization. Monitor and analyze content performance metrics. Ensure data accuracy and quality control. Support promotional campaigns and special events. Requirements: Bachelor's degree in any field. Fresh graduates are welcome. Strong attention to detail and organizational skills. Ability to multitask and prioritize work effectively. Good communication skills. Proficiency in Excel and MS Office applications.",
+                "justificationTH": "ผู้สมัครเป็นผู้สำเร็จการศึกษารุ่นใหม่ที่มีปริญญาในสาขาการจัดการธุรกิจ ซึ่งตรงตามข้อกำหนดด้านการศึกษา พวกเขามีประสบการณ์ใน FMCG การบริหารบัญชีหลัก และการตลาด ซึ่งสอดคล้องกับความต้องการในการประสานงานของงานกับทีมขาย การตลาด และผลิตภัณฑ์ ความสามารถในการใช้ภาษาอังกฤษของพวกเขาเป็นข้อได้เปรียบในทักษะการสื่อสาร ผู้สมัครตรงตามข้อกำหนดสำหรับทักษะการสื่อสารและการจัดองค์กรที่แข็งแกร่ง การจัดลำดับความสำคัญของงาน และความใส่ใจในรายละเอียด ประสบการณ์ของพวกเขากับ Excel และ MS Office ตรงกับข้อกำหนดด้านทักษะคอมพิวเตอร์ ส่วนเดียวที่ขาดคือการขาดประสบการณ์เฉพาะในการจัดการแพลตฟอร์มแบ็คเอนด์ แต่ตำแหน่งงานนี้ยินดีต้อนรับผู้สำเร็จการศึกษารุ่นใหม่.",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "SEO Support (Contract) (Shopee)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/seo-support-contract-shopee-at-shopee-4244722780",
+                "jobDescription": "Job Description: - Conduct end-to-end marketing team admin tasks i.e. process and deliver financial documents to vendors - Explore new ways and learn new skills especially in SEO marketing - Support team in executing marketing campaigns and initiatives - Maintain databases and filing systems - Assist in coordination with various stakeholders - Requirements: Bachelor's degree - Native Thai speaker with good English proficiency - Strong organizational and time management skills - Willingness to learn and adapt to new technologies - Proficiency in office applications and systems",
+                "justificationTH": "ผู้สมัครคือผู้สำเร็จการศึกษาใหม่ในด้านการบริหารธุรกิจ โดยมีประสบการณ์ในด้านการจัดการบัญชีสำคัญและการตลาด ทำให้พวกเขามีความเหมาะสมสำหรับตำแหน่งผู้ช่วยทีมการตลาดระดับเริ่มต้น พื้นฐานของพวกเขาในด้าน FMCG สอดคล้องกับงานด้านการบริหารที่เกี่ยวข้องกับการจัดการผู้ขายและเอกสารทางการเงิน พวกเขามีคุณสมบัติทางการศึกษาเป็นระดับปริญญาตรี และมีทักษะทางภาษาที่จำเป็นในฐานะผู้พูดภาษาไทยเป็นภาษาแม่ พร้อมความสามารถภาษาอังกฤษที่ดี ความเต็มใจที่จะเรียนรู้ของพวกเขาสอดคล้องกับความต้องการของงานในการค้นหาวิธีการใหม่ ๆ และเรียนรู้ทักษะใหม่ โดยเฉพาะในด้านการตลาด SEO ช่องว่างเล็กน้อยเพียงอย่างเดียวคือประสบการณ์เฉพาะเกี่ยวกับแอปพลิเคชันสำนักงานและระบบ แต่ความสามารถที่ผู้สมัครแสดงให้เห็นในการประสบความสำเร็จในสภาพแวดล้อมที่คล้ายคลึงกัน แนะนำว่าพวกเขามีศักยภาพที่แข็งแกร่งในการปรับตัวได้อย่างรวดเร็ว",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "Key Account Management (SPX) (Contract)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/key-account-management-spx-contract-at-shopee-4212444477",
+                "jobDescription": "Job DescriptionMaintain and develop strong relationships with partners.Conduct regular check-ins and business reviews with key accounts.Drive revenue growth through upselling and cross-selling initiatives.Negotiate contracts and pricing agreements.Support promotional campaigns and marketing initiatives.Monitor account performance and provide insights for improvement.Requirements:Bachelor's degree in any field.Fresh graduates are welcome.Strong communication and negotiation skills.Ability to build and maintain relationships.Analytical mindset with problem-solving abilities.Good command of English.",
+                "justificationTH": "ผู้สมัครเป็นบัณฑิตใหม่ที่มีปริญญาในสาขาการจัดการธุรกิจและมีประสบการณ์ที่เกี่ยวข้องใน FMCG, การจัดการบัญชีหลัก และการตลาด ซึ่งสอดคล้องกับข้อกำหนดของงาน ตำแหน่งนี้ยินดีต้อนรับบัณฑิตใหม่และให้คุณค่ากับประสบการณ์ในการจัดการบัญชีหลักซึ่งผู้สมัครมีอยู่ นอกจากนี้ ทักษะการสื่อสารและความสามารถในการใช้ภาษาอังกฤษของผู้สมัครยังตรงตามความต้องการทักษะการสื่อสารและการเจรจาต่อรองของงาน ประสบการณ์ของผู้สมัครในด้านการตลาดยังสนับสนุนแคมเปญส่งเสริมการขายของงาน โดยรวมแล้ว ผู้สมัครมีคุณสมบัติเหมาะสมกับตำแหน่งนี้สูงมาก",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "Warehouse operation (Wangnoi, Ayutthaya)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/warehouse-operation-wangnoi-ayutthaya-at-shopee-4190978678",
+                "jobDescription": "Job Description: Manage In-House Tasks: Distribute work, coordinate activities, and summarize results for warehouse operations. Monitor and track operational performance metrics. Coordinate with logistics and supply chain teams. Ensure compliance with safety and quality standards. Support inventory management processes. Assist in training and development of warehouse staff. Requirements: Bachelor's degree in any field. Fresh graduates are welcome. Strong organizational and coordination skills. Ability to work in a fast-paced environment. Good communication skills. Willingness to work in Wangnoi, Ayutthaya location.",
+                "justificationTH": "ผู้สมัครเหมาะสมเป็นอย่างยิ่งในฐานะบัณฑิตใหม่ด้านการบริหารธุรกิจ ซึ่งตรงตามความต้องการทางการศึกษา พวกเขามีประสบการณ์ใน FMCG, การจัดการบัญชีหลัก และการตลาด ซึ่งสอดคล้องกับการจัดการงานภายในและการประสานงานการดำเนินงาน แม้ว่าประสบการณ์ของพวกเขาจะไม่ตรงกับด้านโลจิสติกส์หรือซัพพลายเชน แต่ทักษะในการสื่อสาร การประสานงาน และการวิเคราะห์ข้อมูลของพวกเขาก็เกี่ยวข้องกับความรับผิดชอบในการทำงาน",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "Resource Planning (Contract) (SPX)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/resource-planning-contract-spx-at-shopee-4213900592",
+                "jobDescription": "Job Description: Track the recruitment progress of fleet and agents to ensure hub capacity. Work closely with operations teams to forecast resource needs. Monitor and analyze capacity utilization and performance metrics. Support strategic planning initiatives for resource allocation. Coordinate with HR and operations for workforce planning. Prepare reports and presentations for management review. Requirements: Bachelor's degree in any field. Fresh graduates are welcome. Strong analytical and problem-solving skills. Excellent communication and teamwork abilities. Proficiency in Microsoft Office, especially Excel. Good command of English.",
+                "justificationTH": "ผู้สมัครมีคุณสมบัติตรงตามข้อกำหนดระดับปริญญาตรีและมีประสบการณ์ในด้านการจัดการธุรกิจ ซึ่งเกี่ยวข้องกับการวางแผนเชิงกลยุทธ์และงานปฏิบัติการที่ระบุในคำบรรยายงาน ประสบการณ์ในด้านการจัดการบัญชีสำคัญและการตลาดบ่งบอกถึงทักษะการสื่อสารและการทำงานเป็นทีมที่แข็งแกร่ง ซึ่งมีคุณค่าสำหรับด้านความร่วมมือในบทบาทนี้ ประสบการณ์ใน FMCG สอดคล้องกับลักษณะที่มีพลศาสตร์และรวดเร็วของงาน แม้ว่าผู้สมัครจะเป็นบัณฑิตใหม่ แต่ก็ไม่เป็นอุปสรรคเนื่องจากงานนี้ยินดีต้อนรับบัณฑิตใหม่ ความชำนาญใน Microsoft Office ตรงตามข้อกำหนดทางเทคนิค ข้อจำกัดเดียวที่อาจเกิดขึ้นคือความสามารถในการใช้ภาษาอังกฤษของผู้สมัคร ซึ่งแม้ว่าจะดี แต่ก็อาจต้องการการพัฒนาเพิ่มเติมสำหรับสภาพแวดล้อมด้านโลจิสติกส์ระหว่างประเทศ.",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "Quality Control Support (SPX) (Contract)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/quality-control-support-spx-contract-at-shopee-4217778999",
+                "jobDescription": "Quality Control Support (SPX) (Contract)\\nShopee\\nBangkok, Bangkok City, Thailand\\n\\nJob Description: Monitor and ensure quality standards in logistics operations. Support quality assurance processes and procedures. Investigate and resolve quality-related issues. Coordinate with operations teams for process improvements. Maintain quality documentation and records. Assist in training programs for quality standards. Requirements: Bachelor's degree in any field. Fresh graduates are welcome. Strong attention to detail and analytical skills. Good communication and problem-solving abilities. Ability to work in a fast-paced environment. Proficiency in Microsoft Office applications.",
+                "justificationTH": "ผู้สมัครเป็นบัณฑิตใหม่ที่มีปริญญาในสาขาการจัดการธุรกิจ ซึ่งสอดคล้องกับความต้องการของงานที่ต้องการปริญญาตรีโดยไม่กำหนดสาขาเฉพาะ ประสบการณ์ของเขาใน FMCG การจัดการบัญชีหลัก และการตลาดนั้นมีประโยชน์ เนื่องจากมันอาจช่วยพัฒนาเทคนิคการวิเคราะห์และการแก้ปัญหาของเขา ซึ่งเป็นสิ่งสำคัญสำหรับบทบาทนี้ ความสามารถของผู้สมัครในการใช้ภาษาอังกฤษช่วยสนับสนุนทักษะการสื่อสารที่จำเป็น และความสามารถในการปรับตัวและทำงานในสภาพแวดล้อมที่มีการเปลี่ยนแปลงอย่างรวดเร็วสอดคล้องกับธรรมชาติของงานที่มีความรวดเร็ว ในที่สุด ประสบการณ์ของเขาในการจัดการปฏิบัติการและการแก้ไขปัญหาจะเสริมสร้างความรับผิดชอบของงานในการดูแลการดำเนินการรับสินค้าและการจัดการปัญหาที่เกี่ยวข้องกับผู้ขาย.",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "[TH] Shopee Fresh Grad",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/th-shopee-fresh-grad-at-shopee-4252133504",
+                "jobDescription": "Job Description: We are seeking enthusiastic and motivated fresh graduates to join our dynamic team at Shopee Thailand. This is a rotational program designed to provide comprehensive exposure to various business functions including operations, marketing, business development, and customer service. You will work on real projects, receive mentorship from experienced professionals, and develop essential skills for career growth. The program includes training sessions, workshops, and networking opportunities. Requirements: Bachelor's degree in any field. Fresh graduate (graduated within the last 2 years). Strong communication skills in Thai and English. Eagerness to learn and adapt in a fast-paced environment. Leadership potential and teamwork abilities.",
+                "justificationTH": "ผู้สมัครเป็นบัณฑิตใหม่ที่มีปริญญาในด้านการจัดการธุรกิจ ซึ่งสอดคล้องกับความต้องการสำหรับบัณฑิตใหม่ ประสบการณ์ของผู้สมัครใน FMCG, การจัดการบัญชีหลัก และการตลาด แสดงให้เห็นถึงทักษะที่เกี่ยวข้อง และความชำนาญภาษาอังกฤษที่ดีของพวกเขาก็ตรงตามข้อกำหนดด้านการสื่อสาร ขอบเขตงานที่มีการฝึกอบรมและพัฒนาทักษะนั้นตรงกับความกระตือรือร้นของผู้สมัครในการเรียนรู้และปรับตัวอย่างสมบูรณ์ จุดที่อาจจะเป็นปัญหาคือการขาดประสบการณ์เฉพาะในด้านทรัพยากรมนุษย์ แต่สิ่งนี้สามารถลดทอนได้จากลักษณะของตำแหน่งที่เป็นระดับเริ่มต้น",
+                "suitabilityScore": 90
+            },
+            {
+                "companyName": "Shopee",
+                "jobTitle": "Key Account Management (Contract - Shopee)",
+                "linkedinUrl": "https://www.linkedin.com/jobs/view/key-account-management-contract-shopee-at-shopee-4244727105",
+                "jobDescription": "Job Description: Responsibility to ensure the success of key merchants on Shopee platform including driving revenue growth, improving merchant satisfaction, and maintaining strong relationships. Educate merchants about Shopee features, promotional campaigns, and best practices. Analyze merchant performance data and provide insights for improvement. Coordinate with internal teams to resolve merchant issues and concerns. Support onboarding process for new key merchants. Requirements: Bachelor's degree in any field. Fresh graduates are welcome. Experience in account management is preferred. Strong analytical and communication skills. Good command of English. Knowledge in Home & Living/Fashion categories is a plus.",
+                "justificationTH": "ผู้สมัครเป็นบัณฑิตใหม่ในระดับการจัดการธุรกิจที่มีประสบการณ์ใน FMCG และการบริหารจัดการบัญชีหลัก ซึ่งสอดคล้องกับการเน้นของงานเกี่ยวกับการจัดการบัญชีและการขับเคลื่อนรายได้ ประสบการณ์ด้านการตลาดของผู้สมัครจะเป็นประโยชน์ในการให้ความรู้แก่ผู้ขายเกี่ยวกับฟีเจอร์และแคมเปญโปรโมชันของ Shopee ความสามารถในการใช้ภาษาอังกฤษในระดับที่ดีของพวกเขาตรงตามข้อกำหนดในการมีความเชี่ยวชาญในภาษาอังกฤษ นอกจากนี้ งานนี้ยังเปิดรับบัณฑิตใหม่และให้ค่าแก่ประสบการณ์ในการบริหารจัดการบัญชีหลัก ทำให้ผู้สมัครเป็นคนที่เหมาะสมอย่างยิ่ง อย่างไรก็ตาม ผู้สมัครขาดประสบการณ์เฉพาะในด้านอีคอมเมิร์ซและความรู้ในหมวดหมู่สินค้าในด้านบ้านและเครื่องใช้/แฟชั่น ซึ่งทำให้ไม่สามารถทำคะแนนได้เต็มที่",
+                "suitabilityScore": 90
+            }
+        ];
+
+        // Initialize slideshow
+        function initializeSlideshow() {
+            createSlides();
+            showSlide(0);
+        }
+
+        // Create slide HTML
+        function createSlides() {
+            const slidesContainer = document.getElementById('slides-container');
+            const dotsContainer = document.getElementById('dots-container');
+            
+            jobData.forEach((job, index) => {
+                // Create slide
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.innerHTML = `
+                    <div class="slide-header">
+                        <div class="slide-number">${index + 1} / ${jobData.length}</div>
+                        <div class="suitability-score">${job.suitabilityScore}</div>
+                    </div>
+                    
+                    <div class="company-name">${job.companyName}</div>
+                    <div class="job-title">${job.jobTitle}</div>
+                    
+                    <div class="section">
+                        <div class="section-title">📋 Job Description</div>
+                        <div class="job-description">${job.jobDescription}</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">🎯 เหตุผลความเหมาะสม</div>
+                        <div class="justification-th">${job.justificationTH}</div>
+                    </div>
+                    
+                    ${job.linkedinUrl ? `<a href="${job.linkedinUrl}" target="_blank" class="linkedin-btn">🔗 View on LinkedIn</a>` : ''}
+                `;
+                
+                slidesContainer.appendChild(slide);
+                
+                // Create dot
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                dot.onclick = () => showSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        // Show specific slide
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            if (slides[index]) {
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentSlide = index;
+            }
+        }
+
+        // Change slide
+        function changeSlide(direction) {
+            const newIndex = currentSlide + direction;
+            
+            if (newIndex >= 0 && newIndex < jobData.length) {
+                showSlide(newIndex);
+            } else if (newIndex < 0) {
+                showSlide(jobData.length - 1);
+            } else {
+                showSlide(0);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize when page loads
+        window.addEventListener('load', initializeSlideshow);
+    </script>
+</body>
+</html>
